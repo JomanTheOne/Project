@@ -37,7 +37,10 @@ public class Main extends Application {
     ArrayList<Symptom> symptoms;
     Button startButton;
     HashMap<String, Symptom> symptomMap;
-    
+    /*
+     * This method creates the stage and scene for the user to interact 
+     * and will call to countryView
+     */
 	@Override
 	public void start(Stage primaryStage) {
 		try {

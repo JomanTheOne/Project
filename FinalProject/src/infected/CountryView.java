@@ -26,7 +26,12 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 
-
+/*
+ * CountryView method called from main to the next stage from the button action made from
+ *the user. This method is responsible for creating a table of country object values from each and a
+ *button for it to update with new values utilizing every other class made
+ *
+ */
 public class CountryView {
 		private ArrayList<Country> countries;
 		private World world;
@@ -43,33 +48,41 @@ public class CountryView {
 	     * Button from main leads to this method where it loads the next scene
 	     */
 	    public CountryView(World world, HashMap<String, Symptom> symptomMap) {
-	    	//Create 
+	    	
+	    	//Grab the variables that come with World object
 	    	this.world = world;
 	    	this.symptomMap = symptomMap;
 	    	this.goal = 5000000;
-	    	symptomMap.put(world.getVirus().getName(), world.getVirus().getSymptoms().get(0));
 	    	this.countries = world.getCountries();
-	        // name column
+	    	
+	    	//Grab the virus that the user inputted from world object
+	    	symptomMap.put(world.getVirus().getName(), world.getVirus().getSymptoms().get(0));
+	    	
+	        //Name the column for all the country names
 	        colName = new TableColumn<>("Country Name");
 	        colName.setMinWidth(250);
+	        
 	        // create a new cellvaluefactory that gets the name property from the country object
 	        colName.setCellValueFactory(new PropertyValueFactory<>("name"));
 	        
-	        // healthy population column
+	        //Name the column for all the # populations within each country
 	        colHealth = new TableColumn<>("Healthy");
 	        colHealth.setMinWidth(200);
+	        
 	         // create a new cellvaluefactory that gets the healthy property from the country object
 	        colHealth.setCellValueFactory(new PropertyValueFactory<>("healthy"));
 	        
-	        // infected population column
+	        //Name a column for all the # of infected within each country
 	        colInfected = new TableColumn<>("Infected");
 	        colInfected.setMinWidth(200);
+	        
 	        // create a new cellvaluefactory that gets the infected property from the country object
 	        colInfected.setCellValueFactory(new PropertyValueFactory<>("infected"));
 	        
-	        // deceased population column
+	        //Name a column for all the # of those dead within each country
 	        colDeceased = new TableColumn<>("Dead");
 	        colDeceased.setMinWidth(200);
+	        
 	        // create a new cellvaluefactory that gets the deceased property from the country object
 	        colDeceased.setCellValueFactory(new PropertyValueFactory<>("deceased"));
 	        
@@ -81,6 +94,10 @@ public class CountryView {
 	        // add all columns to the table
 	        table.getColumns().addAll(colName, colHealth, colInfected, colDeceased);
 	        
+	        /*
+	         * Everytime that the table is updated, this method is called for it to
+	         * determine the sick population to set its color
+	         */
 	        table.setRowFactory(row -> new TableRow<Country>() {
 	            @Override
 	            public void updateItem(Country item, boolean empty) {
@@ -109,22 +126,30 @@ public class CountryView {
 	        {
 	        	table.getItems().add(c);
 	        }
-	      //Create a HBox for the table and set its position
+	        //Create a HBox for the table and set its position in the center
 	        HBox tableBox = new HBox(table);
 	        tableBox.setAlignment(Pos.CENTER);
 	                        
-	        //Label to change the day
+	        //Create a label for the change of the day
+	        //Set the size of the label
 	        dayLabel = new Label();
 	        dayLabel.setPrefSize(70,70);
+	        
+	        //Method to display the change of the day on the frontend
 	        updateDayLabel();
+	        
 	        // Paste the table on the stage
 	        rootPane = new BorderPane(tableBox);
 	                        
 	        //Create a button to update the info of each country by the # of days
 	        Button nextDayButton = new Button("Next Day");
 	        nextDayButton.setPrefSize(70, 70);
-	                        
+	        
+	        //---Button Action--- -> Goes to update() method to increment the day
+	        //////////////////////////////////////////////
 	        nextDayButton.setOnAction(e -> update());
+	        //////////////////////////////////////////////
+	        
 	        //Horizontal box to show the number of days and the button
 	        HBox hbox = new HBox(dayLabel, nextDayButton);
 	        hbox.setAlignment(Pos.CENTER);
@@ -133,7 +158,10 @@ public class CountryView {
 	        rootPane.setBottom(hbox);
 	        rootPane.setPrefSize(70, 70);
 	    }
-	    
+	    /*
+	     * ---Button Action--- 
+	     * Called from nextDayButton to increment the day
+	     */
 	    private void updateDayLabel() {
 	    	dayLabel.setText("Day: " + world.getDay());
 	    }
